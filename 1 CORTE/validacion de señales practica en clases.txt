@@ -1,0 +1,30 @@
+y=P1.signals(1).values(:);
+u=P1.signals(2).values(:);
+G=zpk([],[-2 -10],40)
+
+
+plot(t,u,'DisplayName','u');hold on;plot(t,y,'DisplayName','y');plot(t,yi,'DisplayName','yi');hold off;
+plot(t,u,'DisplayName','u');hold on;plot(t,y,'DisplayName','y');plot(t,yi,'DisplayName','yi');hold off;
+yi=lsim(G,u,t);
+
+t2=P2.time;
+u2=P2.signals(2).values(:);
+y2=P2.signals(1).values(:);
+Gi=feedback(G,1);
+yi2=lsim(G,u2,t2);
+plot(t2,u2,'DisplayName','u2');hold on;plot(t2,yi2,'DisplayName','yi2');plot(t2,y2,'DisplayName','y2');hold off;
+plot(t,u,'DisplayName','u');hold on;plot(t,y,'DisplayName','y');hold off;
+
+
+t3g2=P3G2.time;
+u3g2=P3G2.signals(2).values(:);
+yig2=P3G2.signals(1).values(:);
+
+G=zpk([],[-2 -10],40)
+
+Gi=feedback(G,1);
+yiP3G2=lsim(Gi,u3g2,t3g2);
+r3=P3G2.signals(3).values(:);
+plot(r3,t3g2,'DisplayName','t3g2');hold on;plot(r3,u3g2,'DisplayName','u3g2');plot(r3,yig2,'DisplayName','yig2');plot(r3,yiP3G2,'DisplayName','yiP3G2');hold off;
+
+

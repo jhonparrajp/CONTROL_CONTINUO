@@ -1,0 +1,32 @@
+%VAlidacion jhon
+s=tf('s');
+G=(2.027)/((0.0546*s^2)+(0.8225*s)+1) 
+
+Ge=ss(G) %Para hallar la matriz de espacio de estados
+A=Ge.a; B=Ge.b;C=Ge.c;D=Ge.d; %Separamos nuestras matrices
+order(G)
+Mc=rank(ctrb(A,B))
+
+P=[-7.45+7.45i -7.45-7.45i -37.27]
+
+Pa=[-7.45+7.45i -7.45-7.45i -37.27]
+
+Pob=P(1:2)*10
+
+L=acker(A',C',Pob)'
+
+Aa=[Ge.a,[0;0];-Ge.c,0]
+Ba=[Ge.b;0]
+Ca= [Ge.c 0]
+
+Ka=place(Aa,Ba,Pa);     %Hallamos los valores de k
+K=Ka(1:end-1)           %Valores de k
+ki=-Ka(end)    
+
+%Validacion
+Ge_ci= ss(Ge.A-Ge.B*K,Ge.B,Ge.C,0);
+Ge_ci=tf(Ge_ci)
+Tci=feedback(Ge_ci*ki/s,1);
+figure();
+step(Tci),legend
+stepinfo(Tci)

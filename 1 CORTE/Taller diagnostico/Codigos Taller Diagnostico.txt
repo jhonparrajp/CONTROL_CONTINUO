@@ -1,0 +1,42 @@
+clc, clear
+s=tf('s');
+C1=1;r1=1;c2=1;r2=1;
+z1=1/(s*c1);
+z2=1/(s*c2);
+A=(r1/z1)+(r1/z2)+1;
+B=(z2/r2)+1;
+H=1/((A*B)-(r1/z2));
+minreal(H)
+%Respuesta ante impulso
+impulse(H)
+----------------------------------------
+----------------------------------------
+clc,clear
+syms s a b
+A=s^2+3*s+2;
+t1=2/(s^2*A);
+t2=(b*s+a+3*b)/(A);
+yt=ilaplace(t1+t2);
+pretty(collect(simplify(yt)))
+%Graficas
+a=11;b=1;
+figure(1)
+fplot(subs(yt),[0 1])
+figure(2)
+0>b>5*a;
+fplot(subs(yt),[0 1])
+---------------------------------------
+---------------------------------------
+clc,clear
+s=tf('s');
+k=1;
+T1=1*4*k*1;
+T2=1*k*6*1;
+T3=1*2*5*1;
+T4=1*2*(1/(s+1))*6*1;
+T5=1*k*(1/(s+1))*k*1;
+Delta=1;
+g=(T1+T2+T3+T4+T5)/Delta
+minreal(g)
+%Grafica ante escalon
+step(g)
